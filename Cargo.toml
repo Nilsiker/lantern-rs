@@ -4,5 +4,5 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bevy = "0.13.1"
+bevy = { version = "0.13.1", features = ["wayland"] }
 bevy_ascii_terminal = "0.15.0"

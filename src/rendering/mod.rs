@@ -1,14 +1,17 @@
 use bevy::prelude::*;
-use bevy_ascii_terminal::prelude::*;
+use bevy_ascii_terminal::{prelude::*, TiledCameraBundle};
 
 use crate::core::Position;
 
 #[derive(Component)]
 pub struct Char(pub char);
 
-fn add_terminal(mut commands: Commands, window: Query<&Window>) {
-    let terminal = Terminal::new([20, 3]).with_border(Border::single_line());
-    commands.spawn((TerminalBundle::from(terminal), AutoCamera));
+fn add_terminal(mut commands: Commands) {
+    let terminal = Terminal::new([80, 45]);
+    let terminal_size = terminal.size_with_border();
+    println!("{terminal_size:?}");
+    commands.spawn(TerminalBundle::from(terminal));
+    commands.spawn(TiledCameraBundle::unit_cam([82, 47]));
 }
 
 fn render_characters(query: Query<(&Char, &Position)>, mut terminal: Query<&mut Terminal>) {
@@ -28,7 +31,8 @@ fn render_characters(query: Query<(&Char, &Position)>, mut terminal: Query<&mut 
 pub struct CharRendererPlugin;
 impl Plugin for CharRendererPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, add_terminal)
+        app.insert_resource(ClearColor(Color::BLACK))
+            .add_systems(Startup, add_terminal)
             .add_systems(Update, render_characters);
     }
 }
