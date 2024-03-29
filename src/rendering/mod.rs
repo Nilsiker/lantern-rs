@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use bevy_ascii_terminal::{prelude::*, TiledCameraBundle};
+use bevy_ascii_terminal::prelude::*;
 
 use crate::core::Position;
 
@@ -7,11 +7,10 @@ use crate::core::Position;
 pub struct Char(pub char);
 
 fn add_terminal(mut commands: Commands) {
-    let terminal = Terminal::new([80, 45]);
+    let terminal = Terminal::new([78, 43]).with_border(Border::single_line().with_title("Game"));
     let terminal_size = terminal.size_with_border();
     println!("{terminal_size:?}");
-    commands.spawn(TerminalBundle::from(terminal));
-    commands.spawn(TiledCameraBundle::unit_cam([82, 47]));
+    commands.spawn((TerminalBundle::from(terminal), AutoCamera));
 }
 
 fn render_characters(query: Query<(&Char, &Position)>, mut terminal: Query<&mut Terminal>) {

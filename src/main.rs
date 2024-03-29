@@ -1,6 +1,8 @@
 mod core;
 mod player;
 mod rendering;
+mod stats;
+mod ui;
 
 use core::{MoveEntityEvent, MovementPlugin};
 
@@ -8,6 +10,7 @@ use bevy::prelude::*;
 use bevy_ascii_terminal::prelude::*;
 use player::PlayerPlugin;
 use rendering::CharRendererPlugin;
+use ui::UiPlugin;
 
 fn main() {
     App::new()
@@ -18,6 +21,7 @@ fn main() {
             PlayerPlugin,
             MovementPlugin,
             CharRendererPlugin,
+            UiPlugin,
         ))
         .run();
 }
